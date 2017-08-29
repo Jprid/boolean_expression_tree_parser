@@ -93,19 +93,29 @@ class bool_tree(object):
             return bool_left
 
     def __evaluate_subtree(self, subtree, taken):
-            # determine if subtree is a nested expression
-            # #print(lhs.course)
+        '''
+        private function that evaluates a given subtree
+        subtree -- subtree to evaluate
+        taken   -- courses already taken
+        '''
             if subtree == None:
                 return True
             if subtree.n_type == node_type.COURSE:
                 return (subtree.course.strip('(').strip(')') in taken)
             elif subtree.n_type == node_type.AND:
-                return self.__evaluate_subtree(subtree.right, taken) and self.__evaluate_subtree(subtree.left, taken)
+                return self.__evaluate_subtree(subtree.right, taken)
+                        and self.__evaluate_subtree(subtree.left, taken)
             else:
-                return self.__evaluate_subtree(subtree.right, taken) or self.__evaluate_subtree(subtree.left, taken)
+                return self.__evaluate_subtree(subtree.right, taken) 
+                        or self.__evaluate_subtree(subtree.left, taken)
 
 
     def tree_from_prereq_str(self, prereqs, idx = 0):
+        '''
+        tree_from_prereq_str
+        prereqs -- prerequisite string to parse
+        idx     -- 
+        '''
         tokenized = prereqs.replace('  and', ' and').split(" ")
 
         if len(tokenized) == 2:
